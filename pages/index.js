@@ -2,8 +2,9 @@ import { useState } from "react";
 import Head from "next/head";
 import files from "../data/files";
 
-// FeedbackForm Component - MUST be defined BEFORE Home component
-function FeedbackForm() {
+// FeedbackPopup Component - Floating button in bottom right
+function FeedbackPopup() {
+  const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
@@ -17,100 +18,173 @@ function FeedbackForm() {
 
     // Format message for WhatsApp
     const waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
-    const waNumber = "6289540414752"; // Remove special characters
+    const waNumber = "6289540414752";
     const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
     
     // Open WhatsApp
     window.open(waUrl, "_blank");
     
-    // Reset form
+    // Reset form and close
     setName("");
     setMessage("");
+    setIsOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{
-      maxWidth: "600px",
-      margin: "0 auto"
-    }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <input
-          type="text"
-          placeholder="Nama Anda"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
-            background: "rgba(15, 23, 42, 0.5)",
-            border: "2px solid #334155",
-            borderRadius: "0.75rem",
-            color: "#e2e8f0",
-            outline: "none",
-            transition: "all 0.2s",
-            fontSize: "clamp(0.875rem, 2vw, 1rem)",
-            boxSizing: "border-box"
-          }}
-          onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
-          onBlur={(e) => e.target.style.borderColor = "#334155"}
-        />
-      </div>
-      
-      <div style={{ marginBottom: "1rem" }}>
-        <textarea
-          placeholder="Tulis keluhan atau saran Anda..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows="4"
-          style={{
-            width: "100%",
-            padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
-            background: "rgba(15, 23, 42, 0.5)",
-            border: "2px solid #334155",
-            borderRadius: "0.75rem",
-            color: "#e2e8f0",
-            outline: "none",
-            transition: "all 0.2s",
-            fontSize: "clamp(0.875rem, 2vw, 1rem)",
-            boxSizing: "border-box",
-            resize: "vertical",
-            fontFamily: "inherit"
-          }}
-          onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
-          onBlur={(e) => e.target.style.borderColor = "#334155"}
-        />
-      </div>
-
+    <>
+      {/* Floating Button */}
       <button
-        type="submit"
+        onClick={() => setIsOpen(!isOpen)}
         style={{
-          width: "100%",
-          padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 3vw, 1.5rem)",
-          background: "#22c55e",
+          position: "fixed",
+          bottom: "clamp(1rem, 3vw, 2rem)",
+          right: "clamp(1rem, 3vw, 2rem)",
+          width: "clamp(56px, 15vw, 64px)",
+          height: "clamp(56px, 15vw, 64px)",
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, #22c55e, #16a34a)",
           color: "white",
           border: "none",
-          borderRadius: "0.75rem",
+          boxShadow: "0 4px 20px rgba(34, 197, 94, 0.4)",
           cursor: "pointer",
-          fontSize: "clamp(0.875rem, 2vw, 1rem)",
-          fontWeight: "600",
-          transition: "all 0.2s",
+          fontSize: "clamp(1.5rem, 4vw, 2rem)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "0.5rem"
+          transition: "all 0.3s",
+          zIndex: 999
         }}
         onMouseEnter={(e) => {
-          e.target.style.background = "#16a34a";
-          e.target.style.transform = "translateY(-2px)";
+          e.target.style.transform = "scale(1.1)";
+          e.target.style.boxShadow = "0 6px 30px rgba(34, 197, 94, 0.6)";
         }}
         onMouseLeave={(e) => {
-          e.target.style.background = "#22c55e";
-          e.target.style.transform = "translateY(0)";
+          e.target.style.transform = "scale(1)";
+          e.target.style.boxShadow = "0 4px 20px rgba(34, 197, 94, 0.4)";
         }}
       >
-        <span>💬 Chat Admin WhatsApp</span>
+        {isOpen ? "✕" : "💬"}
       </button>
-    </form>
+
+      {/* Popup Form */}
+      {isOpen && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "clamp(5rem, 20vw, 6rem)",
+            right: "clamp(1rem, 3vw, 2rem)",
+            width: "min(90vw, 380px)",
+            background: "rgba(15, 23, 42, 0.95)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(51, 65, 85, 0.8)",
+            borderRadius: "1rem",
+            padding: "1.5rem",
+            boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
+            zIndex: 998,
+            animation: "slideUp 0.3s ease-out"
+          }}
+        >
+          <h3 style={{
+            color: "#e2e8f0",
+            fontSize: "1.25rem",
+            fontWeight: "600",
+            marginBottom: "0.5rem"
+          }}>
+            💬 Feedback & Keluhan
+          </h3>
+          <p style={{
+            color: "#94a3b8",
+            fontSize: "0.875rem",
+            marginBottom: "1rem"
+          }}>
+            Ada masalah atau saran? Hubungi admin
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "0.75rem" }}>
+              <input
+                type="text"
+                placeholder="Nama Anda"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "0.75rem",
+                  background: "rgba(30, 41, 59, 0.5)",
+                  border: "2px solid #334155",
+                  borderRadius: "0.5rem",
+                  color: "#e2e8f0",
+                  outline: "none",
+                  transition: "all 0.2s",
+                  fontSize: "0.875rem",
+                  boxSizing: "border-box"
+                }}
+                onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
+                onBlur={(e) => e.target.style.borderColor = "#334155"}
+              />
+            </div>
+            
+            <div style={{ marginBottom: "0.75rem" }}>
+              <textarea
+                placeholder="Tulis keluhan atau saran..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows="3"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem",
+                  background: "rgba(30, 41, 59, 0.5)",
+                  border: "2px solid #334155",
+                  borderRadius: "0.5rem",
+                  color: "#e2e8f0",
+                  outline: "none",
+                  transition: "all 0.2s",
+                  fontSize: "0.875rem",
+                  boxSizing: "border-box",
+                  resize: "vertical",
+                  fontFamily: "inherit"
+                }}
+                onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
+                onBlur={(e) => e.target.style.borderColor = "#334155"}
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                background: "#22c55e",
+                color: "white",
+                border: "none",
+                borderRadius: "0.5rem",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                fontWeight: "600",
+                transition: "all 0.2s"
+              }}
+              onMouseEnter={(e) => e.target.style.background = "#16a34a"}
+              onMouseLeave={(e) => e.target.style.background = "#22c55e"}
+            >
+              Kirim ke WhatsApp
+            </button>
+          </form>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
@@ -465,35 +539,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Feedback Section */}
-          <div style={{
-            marginTop: "clamp(2rem, 5vw, 3rem)",
-            background: "rgba(30, 41, 59, 0.5)",
-            backdropFilter: "blur(24px)",
-            border: "1px solid rgba(51, 65, 85, 0.5)",
-            borderRadius: "1rem",
-            padding: "clamp(1.5rem, 4vw, 2rem)"
-          }}>
-            <h2 style={{
-              color: "#e2e8f0",
-              fontSize: "clamp(1.25rem, 3vw, 1.5rem)",
-              fontWeight: "600",
-              marginBottom: "0.5rem",
-              textAlign: "center"
-            }}>
-              💬 Feedback & Keluhan
-            </h2>
-            <p style={{
-              color: "#94a3b8",
-              fontSize: "clamp(0.875rem, 2vw, 1rem)",
-              marginBottom: "1.5rem",
-              textAlign: "center"
-            }}>
-              Ada masalah atau saran? Hubungi admin kami
-            </p>
-            <FeedbackForm />
-          </div>
-
           {/* Footer */}
           <div style={{
             marginTop: "clamp(2rem, 5vw, 3rem)",
@@ -505,6 +550,9 @@ export default function Home() {
             <p>📚 Terus belajar dan tingkatkan skill trading Anda</p>
           </div>
         </div>
+
+        {/* Floating Feedback Popup */}
+        <FeedbackPopup />
 
         <style jsx>{`
           @keyframes pulse {
