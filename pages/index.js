@@ -19,7 +19,18 @@ function FeedbackPopup() {
     // Format message for WhatsApp
     const waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
     const waNumber = "6289540414752";
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+    
+    // Detect device type
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    let waUrl;
+    if (isMobile) {
+      // Mobile: Open WhatsApp app directly
+      waUrl = `whatsapp://send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
+    } else {
+      // Desktop: Open WhatsApp Web
+      waUrl = `https://web.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
+    }
     
     // Open WhatsApp
     window.open(waUrl, "_blank");
