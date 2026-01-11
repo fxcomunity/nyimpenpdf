@@ -2,6 +2,119 @@ import { useState } from "react";
 import Head from "next/head";
 import files from "../data/files";
 
+// FeedbackForm Component - MUST be defined BEFORE Home component
+function FeedbackForm() {
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!name.trim() || !message.trim()) {
+      alert("Mohon isi nama dan keluhan terlebih dahulu!");
+      return;
+    }
+
+    // Format message for WhatsApp
+    const waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
+    const waNumber = "6289540414752"; // Remove special characters
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+    
+    // Open WhatsApp
+    window.open(waUrl, "_blank");
+    
+    // Reset form
+    setName("");
+    setMessage("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{
+      maxWidth: "600px",
+      margin: "0 auto"
+    }}>
+      <div style={{ marginBottom: "1rem" }}>
+        <input
+          type="text"
+          placeholder="Nama Anda"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
+            background: "rgba(15, 23, 42, 0.5)",
+            border: "2px solid #334155",
+            borderRadius: "0.75rem",
+            color: "#e2e8f0",
+            outline: "none",
+            transition: "all 0.2s",
+            fontSize: "clamp(0.875rem, 2vw, 1rem)",
+            boxSizing: "border-box"
+          }}
+          onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
+          onBlur={(e) => e.target.style.borderColor = "#334155"}
+        />
+      </div>
+      
+      <div style={{ marginBottom: "1rem" }}>
+        <textarea
+          placeholder="Tulis keluhan atau saran Anda..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          rows="4"
+          style={{
+            width: "100%",
+            padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
+            background: "rgba(15, 23, 42, 0.5)",
+            border: "2px solid #334155",
+            borderRadius: "0.75rem",
+            color: "#e2e8f0",
+            outline: "none",
+            transition: "all 0.2s",
+            fontSize: "clamp(0.875rem, 2vw, 1rem)",
+            boxSizing: "border-box",
+            resize: "vertical",
+            fontFamily: "inherit"
+          }}
+          onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
+          onBlur={(e) => e.target.style.borderColor = "#334155"}
+        />
+      </div>
+
+      <button
+        type="submit"
+        style={{
+          width: "100%",
+          padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 3vw, 1.5rem)",
+          background: "#22c55e",
+          color: "white",
+          border: "none",
+          borderRadius: "0.75rem",
+          cursor: "pointer",
+          fontSize: "clamp(0.875rem, 2vw, 1rem)",
+          fontWeight: "600",
+          transition: "all 0.2s",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.5rem"
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.background = "#16a34a";
+          e.target.style.transform = "translateY(-2px)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = "#22c55e";
+          e.target.style.transform = "translateY(0)";
+        }}
+      >
+        <span>💬 Chat Admin WhatsApp</span>
+      </button>
+    </form>
+  );
+}
+
+// Main Home Component
 export default function Home() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
