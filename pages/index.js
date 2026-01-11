@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 import files from "../data/files";
 
 export default function Home() {
@@ -25,107 +26,124 @@ export default function Home() {
   };
 
   return (
-    <div style={{ 
-      minHeight: "100vh",
-      background: "linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a)",
-      position: "relative"
-    }}>
-      {/* Animated background effects */}
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: "25%",
-          width: "384px",
-          height: "384px",
-          background: "rgba(59, 130, 246, 0.1)",
-          borderRadius: "50%",
-          filter: "blur(96px)",
-          animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-        }}></div>
-        <div style={{
-          position: "absolute",
-          bottom: 0,
-          right: "25%",
-          width: "384px",
-          height: "384px",
-          background: "rgba(168, 85, 247, 0.1)",
-          borderRadius: "50%",
-          filter: "blur(96px)",
-          animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-          animationDelay: "1s"
-        }}></div>
-      </div>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>📂 PDF Library - Trading & ICT Resources</title>
+        <meta name="description" content="Koleksi lengkap materi trading, ICT, crypto, dan market analysis" />
+      </Head>
 
       <div style={{ 
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a)",
         position: "relative",
-        maxWidth: "1280px",
-        margin: "0 auto",
-        padding: "3rem 1rem"
+        overflow: "hidden"
       }}>
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h1 style={{
-            fontSize: "3.75rem",
-            fontWeight: "bold",
-            background: "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-            marginBottom: "1rem"
-          }}>
-            📂 PDF Library
-          </h1>
-          <p style={{ color: "#94a3b8", fontSize: "1.125rem" }}>
-            Koleksi lengkap materi trading, ICT, crypto, dan market analysis
-          </p>
-          <div style={{ 
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1.5rem",
-            marginTop: "1.5rem",
-            fontSize: "0.875rem"
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <div style={{
-                width: "8px",
-                height: "8px",
-                background: "#22c55e",
-                borderRadius: "50%",
-                animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-              }}></div>
-              <span style={{ color: "#94a3b8" }}>{files.length} Dokumen</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <div style={{
-                width: "8px",
-                height: "8px",
-                background: "#3b82f6",
-                borderRadius: "50%",
-                animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-              }}></div>
-              <span style={{ color: "#94a3b8" }}>{categories.length - 1} Kategori</span>
-            </div>
-          </div>
+        {/* Animated background effects */}
+        <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+          <div style={{
+            position: "absolute",
+            top: 0,
+            left: "25%",
+            width: "min(384px, 50vw)",
+            height: "min(384px, 50vw)",
+            background: "rgba(59, 130, 246, 0.1)",
+            borderRadius: "50%",
+            filter: "blur(96px)",
+            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+          }}></div>
+          <div style={{
+            position: "absolute",
+            bottom: 0,
+            right: "25%",
+            width: "min(384px, 50vw)",
+            height: "min(384px, 50vw)",
+            background: "rgba(168, 85, 247, 0.1)",
+            borderRadius: "50%",
+            filter: "blur(96px)",
+            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            animationDelay: "1s"
+          }}></div>
         </div>
 
-        {/* Search and Filter Box */}
-        <div style={{
-          background: "rgba(30, 41, 59, 0.5)",
-          backdropFilter: "blur(24px)",
-          border: "1px solid rgba(51, 65, 85, 0.5)",
-          borderRadius: "1rem",
-          padding: "1.5rem",
-          marginBottom: "2rem"
+        <div style={{ 
+          position: "relative",
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "clamp(1rem, 5vw, 3rem) clamp(0.75rem, 3vw, 1rem)",
+          width: "100%",
+          boxSizing: "border-box"
         }}>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: "clamp(2rem, 5vw, 3rem)" }}>
+            <h1 style={{
+              fontSize: "clamp(2rem, 8vw, 3.75rem)",
+              fontWeight: "bold",
+              background: "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+              marginBottom: "clamp(0.5rem, 2vw, 1rem)",
+              lineHeight: "1.2"
+            }}>
+              📂 PDF Library
+            </h1>
+            <p style={{ 
+              color: "#94a3b8", 
+              fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)",
+              padding: "0 1rem",
+              maxWidth: "600px",
+              margin: "0 auto"
+            }}>
+              Koleksi lengkap materi trading, ICT, crypto, dan market analysis
+            </p>
+            <div style={{ 
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "clamp(1rem, 3vw, 1.5rem)",
+              marginTop: "clamp(1rem, 3vw, 1.5rem)",
+              fontSize: "clamp(0.75rem, 2vw, 0.875rem)",
+              flexWrap: "wrap"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <div style={{
+                  width: "8px",
+                  height: "8px",
+                  background: "#22c55e",
+                  borderRadius: "50%",
+                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+                }}></div>
+                <span style={{ color: "#94a3b8" }}>{files.length} Dokumen</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <div style={{
+                  width: "8px",
+                  height: "8px",
+                  background: "#3b82f6",
+                  borderRadius: "50%",
+                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+                }}></div>
+                <span style={{ color: "#94a3b8" }}>{categories.length - 1} Kategori</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Search and Filter Box */}
           <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "1rem"
+            background: "rgba(30, 41, 59, 0.5)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(51, 65, 85, 0.5)",
+            borderRadius: "1rem",
+            padding: "clamp(1rem, 3vw, 1.5rem)",
+            marginBottom: "clamp(1.5rem, 4vw, 2rem)"
           }}>
-            {/* Search Input */}
-            <div style={{ gridColumn: "span 2" }}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))",
+              gap: "clamp(0.75rem, 2vw, 1rem)"
+            }}>
+              {/* Search Input */}
               <input
                 type="text"
                 placeholder="Cari dokumen..."
@@ -133,34 +151,36 @@ export default function Home() {
                 onChange={e => setQ(e.target.value)}
                 style={{
                   width: "100%",
-                  padding: "0.875rem 1rem",
+                  padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
                   background: "rgba(15, 23, 42, 0.5)",
                   border: "2px solid #334155",
                   borderRadius: "0.75rem",
                   color: "#e2e8f0",
                   outline: "none",
-                  transition: "all 0.2s"
+                  transition: "all 0.2s",
+                  fontSize: "clamp(0.875rem, 2vw, 1rem)",
+                  boxSizing: "border-box"
                 }}
                 onFocus={e => e.target.style.borderColor = "#3b82f6"}
                 onBlur={e => e.target.style.borderColor = "#334155"}
               />
-            </div>
 
-            {/* Category Select */}
-            <div>
+              {/* Category Select */}
               <select
                 value={cat}
                 onChange={e => setCat(e.target.value)}
                 style={{
                   width: "100%",
-                  padding: "0.875rem 1rem",
+                  padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
                   background: "rgba(15, 23, 42, 0.5)",
                   border: "2px solid #334155",
                   borderRadius: "0.75rem",
                   color: "#e2e8f0",
                   outline: "none",
                   cursor: "pointer",
-                  transition: "all 0.2s"
+                  transition: "all 0.2s",
+                  fontSize: "clamp(0.875rem, 2vw, 1rem)",
+                  boxSizing: "border-box"
                 }}
                 onFocus={e => e.target.style.borderColor = "#3b82f6"}
                 onBlur={e => e.target.style.borderColor = "#334155"}
@@ -172,135 +192,199 @@ export default function Home() {
                 ))}
               </select>
             </div>
+
+            {/* Stats */}
+            <div style={{ 
+              marginTop: "clamp(0.75rem, 2vw, 1rem)", 
+              fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)", 
+              color: "#94a3b8",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}>
+              <span>
+                Menampilkan <span style={{ color: "#60a5fa", fontWeight: "600" }}>{filtered.length}</span> dari {files.length} dokumen
+                {cat !== "All" && <span> dalam <span style={{ color: "#a78bfa", fontWeight: "600" }}>{cat}</span></span>}
+              </span>
+              {q && (
+                <button
+                  onClick={() => setQ("")}
+                  style={{
+                    padding: "0.25rem 0.75rem",
+                    background: "transparent",
+                    color: "#94a3b8",
+                    border: "1px solid #334155",
+                    borderRadius: "0.375rem",
+                    cursor: "pointer",
+                    fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
+                    transition: "all 0.2s"
+                  }}
+                  onMouseEnter={e => {
+                    e.target.style.color = "#e2e8f0";
+                    e.target.style.borderColor = "#60a5fa";
+                  }}
+                  onMouseLeave={e => {
+                    e.target.style.color = "#94a3b8";
+                    e.target.style.borderColor = "#334155";
+                  }}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Stats */}
-          <div style={{ marginTop: "1rem", fontSize: "0.875rem", color: "#94a3b8" }}>
-            Menampilkan <span style={{ color: "#60a5fa", fontWeight: "600" }}>{filtered.length}</span> dari {files.length} dokumen
-            {cat !== "All" && <span> dalam kategori <span style={{ color: "#a78bfa", fontWeight: "600" }}>{cat}</span></span>}
+          {/* Results Grid */}
+          {filtered.length > 0 ? (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
+              gap: "clamp(0.75rem, 2vw, 1rem)"
+            }}>
+              {filtered.map(f => {
+                const colorClass = getCategoryColor(f.category);
+                const bgColor = colorClass.replace("bg-", "");
+                
+                return (
+                  <a
+                    key={f.slug}
+                    href={`/file/${f.slug}`}
+                    style={{
+                      background: "rgba(30, 41, 59, 0.5)",
+                      border: "1px solid rgba(51, 65, 85, 0.5)",
+                      borderRadius: "0.75rem",
+                      padding: "clamp(1rem, 3vw, 1.25rem)",
+                      textDecoration: "none",
+                      transition: "all 0.3s",
+                      cursor: "pointer",
+                      display: "block",
+                      boxSizing: "border-box"
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = "rgba(30, 41, 59, 1)";
+                      e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.5)";
+                      e.currentTarget.style.transform = "translateY(-4px)";
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = "rgba(30, 41, 59, 0.5)";
+                      e.currentTarget.style.borderColor = "rgba(51, 65, 85, 0.5)";
+                      e.currentTarget.style.transform = "translateY(0)";
+                    }}
+                  >
+                    <h3 style={{
+                      fontWeight: "600",
+                      color: "#e2e8f0",
+                      marginBottom: "0.5rem",
+                      transition: "color 0.2s",
+                      fontSize: "clamp(0.875rem, 2.2vw, 1rem)",
+                      lineHeight: "1.4",
+                      wordBreak: "break-word"
+                    }}>
+                      {f.title.replace('.pdf', '')}
+                    </h3>
+                    <span style={{
+                      display: "inline-block",
+                      padding: "0.25rem 0.75rem",
+                      borderRadius: "0.375rem",
+                      fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
+                      fontWeight: "500",
+                      background: bgColor === "blue-500" ? "rgba(59, 130, 246, 0.2)" :
+                                 bgColor === "purple-500" ? "rgba(168, 85, 247, 0.2)" :
+                                 bgColor === "amber-500" ? "rgba(245, 158, 11, 0.2)" :
+                                 bgColor === "green-500" ? "rgba(34, 197, 94, 0.2)" :
+                                 bgColor === "pink-500" ? "rgba(236, 72, 153, 0.2)" :
+                                 "rgba(107, 114, 128, 0.2)",
+                      color: bgColor === "blue-500" ? "#60a5fa" :
+                            bgColor === "purple-500" ? "#a78bfa" :
+                            bgColor === "amber-500" ? "#fbbf24" :
+                            bgColor === "green-500" ? "#4ade80" :
+                            bgColor === "pink-500" ? "#f472b6" :
+                            "#9ca3af"
+                    }}>
+                      {f.category}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{
+              background: "rgba(30, 41, 59, 0.5)",
+              border: "1px solid rgba(51, 65, 85, 0.5)",
+              borderRadius: "1rem",
+              padding: "clamp(2rem, 8vw, 3rem)",
+              textAlign: "center"
+            }}>
+              <h3 style={{
+                fontSize: "clamp(1rem, 3vw, 1.25rem)",
+                fontWeight: "600",
+                color: "#e2e8f0",
+                marginBottom: "0.5rem"
+              }}>
+                Tidak ada dokumen ditemukan
+              </h3>
+              <p style={{ 
+                color: "#94a3b8", 
+                marginBottom: "1rem",
+                fontSize: "clamp(0.875rem, 2vw, 1rem)"
+              }}>
+                Coba ubah kata kunci atau filter kategori
+              </p>
+              <button
+                onClick={() => { setQ(""); setCat("All"); }}
+                style={{
+                  padding: "clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)",
+                  background: "#3b82f6",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                  transition: "background 0.2s",
+                  fontSize: "clamp(0.875rem, 2vw, 1rem)"
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = "#2563eb"}
+                onMouseLeave={e => e.currentTarget.style.background = "#3b82f6"}
+              >
+                Reset Filter
+              </button>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div style={{
+            marginTop: "clamp(2rem, 5vw, 3rem)",
+            textAlign: "center",
+            color: "#64748b",
+            fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
+            padding: "1rem 0"
+          }}>
+            <p>📚 Terus belajar dan tingkatkan skill trading Anda</p>
           </div>
         </div>
 
-        {/* Results Grid */}
-        {filtered.length > 0 ? (
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "1rem"
-          }}>
-            {filtered.map(f => {
-              const colorClass = getCategoryColor(f.category);
-              const bgColor = colorClass.replace("bg-", "");
-              
-              return (
-                <a
-                  key={f.slug}
-                  href={`/file/${f.slug}`}
-                  style={{
-                    background: "rgba(30, 41, 59, 0.5)",
-                    border: "1px solid rgba(51, 65, 85, 0.5)",
-                    borderRadius: "0.75rem",
-                    padding: "1.25rem",
-                    textDecoration: "none",
-                    transition: "all 0.3s",
-                    cursor: "pointer"
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = "rgba(30, 41, 59, 1)";
-                    e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.5)";
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = "rgba(30, 41, 59, 0.5)";
-                    e.currentTarget.style.borderColor = "rgba(51, 65, 85, 0.5)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
-                >
-                  <h3 style={{
-                    fontWeight: "600",
-                    color: "#e2e8f0",
-                    marginBottom: "0.5rem",
-                    transition: "color 0.2s"
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.color = "#60a5fa"}
-                  onMouseLeave={e => e.currentTarget.style.color = "#e2e8f0"}
-                  >
-                    {f.title.replace('.pdf', '')}
-                  </h3>
-                  <span style={{
-                    display: "inline-block",
-                    padding: "0.25rem 0.75rem",
-                    borderRadius: "0.375rem",
-                    fontSize: "0.75rem",
-                    fontWeight: "500",
-                    background: bgColor === "blue-500" ? "rgba(59, 130, 246, 0.2)" :
-                               bgColor === "purple-500" ? "rgba(168, 85, 247, 0.2)" :
-                               bgColor === "amber-500" ? "rgba(245, 158, 11, 0.2)" :
-                               bgColor === "green-500" ? "rgba(34, 197, 94, 0.2)" :
-                               bgColor === "pink-500" ? "rgba(236, 72, 153, 0.2)" :
-                               "rgba(107, 114, 128, 0.2)",
-                    color: bgColor === "blue-500" ? "#60a5fa" :
-                          bgColor === "purple-500" ? "#a78bfa" :
-                          bgColor === "amber-500" ? "#fbbf24" :
-                          bgColor === "green-500" ? "#4ade80" :
-                          bgColor === "pink-500" ? "#f472b6" :
-                          "#9ca3af"
-                  }}>
-                    {f.category}
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        ) : (
-          <div style={{
-            background: "rgba(30, 41, 59, 0.5)",
-            border: "1px solid rgba(51, 65, 85, 0.5)",
-            borderRadius: "1rem",
-            padding: "3rem",
-            textAlign: "center"
-          }}>
-            <h3 style={{
-              fontSize: "1.25rem",
-              fontWeight: "600",
-              color: "#e2e8f0",
-              marginBottom: "0.5rem"
-            }}>
-              Tidak ada dokumen ditemukan
-            </h3>
-            <p style={{ color: "#94a3b8", marginBottom: "1rem" }}>
-              Coba ubah kata kunci atau filter kategori
-            </p>
-            <button
-              onClick={() => { setQ(""); setCat("All"); }}
-              style={{
-                padding: "0.5rem 1.5rem",
-                background: "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: "0.5rem",
-                cursor: "pointer",
-                transition: "background 0.2s"
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = "#2563eb"}
-              onMouseLeave={e => e.currentTarget.style.background = "#3b82f6"}
-            >
-              Reset Filter
-            </button>
-          </div>
-        )}
-      </div>
+        <style jsx>{`
+          @keyframes pulse {
+            0%, 100% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.5;
+            }
+          }
 
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
+          @media (max-width: 640px) {
+            h1 {
+              word-break: break-word;
+            }
           }
-          50% {
-            opacity: 0.5;
+
+          * {
+            -webkit-tap-highlight-color: transparent;
           }
-        }
-      `}</style>
-    </div>
+        `}</style>
+      </div>
+    </>
   );
 }
