@@ -352,6 +352,35 @@ export default function Home() {
             </div>
           )}
 
+          {/* Feedback Section */}
+          <div style={{
+            marginTop: "clamp(2rem, 5vw, 3rem)",
+            background: "rgba(30, 41, 59, 0.5)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(51, 65, 85, 0.5)",
+            borderRadius: "1rem",
+            padding: "clamp(1.5rem, 4vw, 2rem)"
+          }}>
+            <h2 style={{
+              color: "#e2e8f0",
+              fontSize: "clamp(1.25rem, 3vw, 1.5rem)",
+              fontWeight: "600",
+              marginBottom: "0.5rem",
+              textAlign: "center"
+            }}>
+              💬 Feedback & Keluhan
+            </h2>
+            <p style={{
+              color: "#94a3b8",
+              fontSize: "clamp(0.875rem, 2vw, 1rem)",
+              marginBottom: "1.5rem",
+              textAlign: "center"
+            }}>
+              Ada masalah atau saran? Hubungi admin kami
+            </p>
+            <FeedbackForm />
+          </div>
+
           {/* Footer */}
           <div style={{
             marginTop: "clamp(2rem, 5vw, 3rem)",
