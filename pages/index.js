@@ -7,6 +7,53 @@ function FeedbackPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageError, setImageError] = useState("");
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageError("");
+
+    if (file) {
+      // Validate file type
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      if (!validTypes.includes(file.type)) {
+        setImageError("Format file harus JPG, PNG, atau WebP");
+        setImage(null);
+        setImagePreview(null);
+        e.target.value = '';
+        return;
+      }
+
+      // Validate file size (5MB = 5 * 1024 * 1024 bytes)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        setImageError("Ukuran file maksimal 5MB");
+        setImage(null);
+        setImagePreview(null);
+        e.target.value = '';
+        return;
+      }
+
+      // Set image and preview
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImage(null);
+    setImagePreview(null);
+    setImageError("");
+    // Reset file input
+    const fileInput = document.getElementById('image-upload');
+    if (fileInput) fileInput.value = '';
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,27 +64,29 @@ function FeedbackPopup() {
     }
 
     // Format message for WhatsApp
-    const waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
-    const waNumber = "6289540414752";
+    let waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
     
-    // Detect device type
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    let waUrl;
-    if (isMobile) {
-      // Mobile: Open WhatsApp app directly
-      waUrl = `whatsapp://send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
-    } else {
-      // Desktop: Open WhatsApp Web
-      waUrl = `https://web.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
+    if (image) {
+      waMessage += `\n\n_*Note: User telah melampirkan screenshot/foto. Mohon tunggu user mengirim foto secara terpisah._`;
     }
+    
+    const waNumber = "62895404147521";
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
     
     // Open WhatsApp
     window.open(waUrl, "_blank");
     
+    // Show alert if there's an image
+    if (image) {
+      setTimeout(() => {
+        alert("Silakan kirim foto/screenshot Anda di chat WhatsApp yang sudah terbuka!");
+      }, 1000);
+    }
+    
     // Reset form and close
     setName("");
     setMessage("");
+    removeImage();
     setIsOpen(false);
   };
 
@@ -158,6 +207,94 @@ function FeedbackPopup() {
                 onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
                 onBlur={(e) => e.target.style.borderColor = "#334155"}
               />
+            </div>
+
+            {/* Image Upload */}
+            <div style={{ marginBottom: "0.75rem" }}>
+              <label style={{
+                display: "block",
+                color: "#94a3b8",
+                fontSize: "0.75rem",
+                marginBottom: "0.5rem"
+              }}>
+                📷 Lampirkan Foto (Opsional)
+              </label>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
+                onChange={handleImageChange}
+                style={{
+                  width: "100%",
+                  padding: "0.5rem",
+                  background: "rgba(30, 41, 59, 0.5)",
+                  border: "2px solid #334155",
+                  borderRadius: "0.5rem",
+                  color: "#e2e8f0",
+                  fontSize: "0.75rem",
+                  boxSizing: "border-box",
+                  cursor: "pointer"
+                }}
+              />
+              <p style={{
+                fontSize: "0.7rem",
+                color: "#64748b",
+                marginTop: "0.25rem"
+              }}>
+                Format: JPG, PNG, WebP • Max: 5MB
+              </p>
+              
+              {imageError && (
+                <p style={{
+                  fontSize: "0.75rem",
+                  color: "#ef4444",
+                  marginTop: "0.5rem"
+                }}>
+                  ⚠️ {imageError}
+                </p>
+              )}
+
+              {imagePreview && (
+                <div style={{
+                  marginTop: "0.75rem",
+                  position: "relative",
+                  borderRadius: "0.5rem",
+                  overflow: "hidden"
+                }}>
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    style={{
+                      width: "100%",
+                      maxHeight: "200px",
+                      objectFit: "contain",
+                      background: "#1e293b"
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    style={{
+                      position: "absolute",
+                      top: "0.5rem",
+                      right: "0.5rem",
+                      background: "#ef4444",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "24px",
+                      height: "24px",
+                      cursor: "pointer",
+                      fontSize: "0.75rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </div>
 
             <button
