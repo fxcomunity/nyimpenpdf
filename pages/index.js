@@ -2,8 +2,59 @@ import { useState } from "react";
 import Head from "next/head";
 import files from "../data/files";
 
+// Language translations
+const translations = {
+  id: {
+    title: "📂 Perpustakaan PDF",
+    subtitle: "Koleksi lengkap materi trading, ICT, crypto, dan market analysis",
+    documents: "Dokumen",
+    categories: "Kategori",
+    searchPlaceholder: "Cari dokumen...",
+    showing: "Menampilkan",
+    of: "dari",
+    documentsText: "dokumen",
+    in: "dalam",
+    reset: "Reset",
+    noDocuments: "Tidak ada dokumen ditemukan",
+    tryAdjust: "Coba ubah kata kunci atau filter kategori",
+    resetFilter: "Reset Filter",
+    feedbackTitle: "💬 Feedback & Keluhan",
+    feedbackSubtitle: "Ada masalah atau saran? Hubungi admin",
+    namePlaceholder: "Nama Anda",
+    messagePlaceholder: "Tulis keluhan atau saran...",
+    uploadLabel: "📷 Lampirkan Foto (Opsional)",
+    formatInfo: "Format: JPG, PNG, WebP • Max: 5MB",
+    sendToWhatsApp: "Kirim ke WhatsApp",
+    footer: "📚 Terus belajar dan tingkatkan skill trading Anda"
+  },
+  en: {
+    title: "📂 PDF Library",
+    subtitle: "Complete collection of trading, ICT, crypto, and market analysis materials",
+    documents: "Documents",
+    categories: "Categories",
+    searchPlaceholder: "Search documents...",
+    showing: "Showing",
+    of: "of",
+    documentsText: "documents",
+    in: "in",
+    reset: "Reset",
+    noDocuments: "No documents found",
+    tryAdjust: "Try adjusting your search or filter criteria",
+    resetFilter: "Reset Filter",
+    feedbackTitle: "💬 Feedback & Support",
+    feedbackSubtitle: "Have an issue or suggestion? Contact admin",
+    namePlaceholder: "Your Name",
+    messagePlaceholder: "Write your feedback or suggestion...",
+    uploadLabel: "📷 Attach Photo (Optional)",
+    formatInfo: "Format: JPG, PNG, WebP • Max: 5MB",
+    sendToWhatsApp: "Send to WhatsApp",
+    footer: "📚 Keep learning and improve your trading skills"
+  }
+};
+
 // FeedbackPopup Component - Floating button in bottom right
-function FeedbackPopup() {
+function FeedbackPopup({ lang }) {
+  const t = translations[lang];
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -59,15 +110,19 @@ function FeedbackPopup() {
     e.preventDefault();
     
     if (!name.trim() || !message.trim()) {
-      alert("Mohon isi nama dan keluhan terlebih dahulu!");
+      alert(lang === 'id' 
+        ? "Mohon isi nama dan keluhan terlebih dahulu!" 
+        : "Please fill in your name and message!");
       return;
     }
 
     // Format message for WhatsApp
-    let waMessage = `*Feedback dari PDF Library*\n\nNama: ${name}\nKeluhan: ${message}`;
+    let waMessage = `*Feedback from PDF Library*\n\nName: ${name}\nMessage: ${message}`;
     
     if (image) {
-      waMessage += `\n\n_*Note: User telah melampirkan screenshot/foto. Mohon tunggu user mengirim foto secara terpisah._`;
+      waMessage += lang === 'id'
+        ? `\n\n_*Note: User telah melampirkan screenshot/foto. Mohon tunggu user mengirim foto secara terpisah._`
+        : `\n\n_*Note: User has attached a screenshot/photo. Please wait for the user to send the photo separately._`;
     }
     
     const waNumber = "62895404147521";
@@ -79,7 +134,9 @@ function FeedbackPopup() {
     // Show alert if there's an image
     if (image) {
       setTimeout(() => {
-        alert("Silakan kirim foto/screenshot Anda di chat WhatsApp yang sudah terbuka!");
+        alert(lang === 'id' 
+          ? "Silakan kirim foto/screenshot Anda di chat WhatsApp yang sudah terbuka!"
+          : "Please send your photo/screenshot in the WhatsApp chat that just opened!");
       }, 1000);
     }
     
@@ -150,21 +207,21 @@ function FeedbackPopup() {
             fontWeight: "600",
             marginBottom: "0.5rem"
           }}>
-            💬 Feedback & Keluhan
+            {t.feedbackTitle}
           </h3>
           <p style={{
             color: "#94a3b8",
             fontSize: "0.875rem",
             marginBottom: "1rem"
           }}>
-            Ada masalah atau saran? Hubungi admin
+            {t.feedbackSubtitle}
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <div onSubmit={handleSubmit}>
             <div style={{ marginBottom: "0.75rem" }}>
               <input
                 type="text"
-                placeholder="Nama Anda"
+                placeholder={t.namePlaceholder}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{
@@ -186,7 +243,7 @@ function FeedbackPopup() {
             
             <div style={{ marginBottom: "0.75rem" }}>
               <textarea
-                placeholder="Tulis keluhan atau saran..."
+                placeholder={t.messagePlaceholder}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows="3"
@@ -217,7 +274,7 @@ function FeedbackPopup() {
                 fontSize: "0.75rem",
                 marginBottom: "0.5rem"
               }}>
-                📷 Lampirkan Foto (Opsional)
+                {t.uploadLabel}
               </label>
               <input
                 id="image-upload"
@@ -241,7 +298,7 @@ function FeedbackPopup() {
                 color: "#64748b",
                 marginTop: "0.25rem"
               }}>
-                Format: JPG, PNG, WebP • Max: 5MB
+                {t.formatInfo}
               </p>
               
               {imageError && (
@@ -298,7 +355,8 @@ function FeedbackPopup() {
             </div>
 
             <button
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               style={{
                 width: "100%",
                 padding: "0.75rem",
@@ -314,9 +372,9 @@ function FeedbackPopup() {
               onMouseEnter={(e) => e.target.style.background = "#16a34a"}
               onMouseLeave={(e) => e.target.style.background = "#22c55e"}
             >
-              Kirim ke WhatsApp
+              {t.sendToWhatsApp}
             </button>
-          </form>
+          </div>
         </div>
       )}
 
@@ -340,6 +398,9 @@ function FeedbackPopup() {
 export default function Home() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
+  const [lang, setLang] = useState("id"); // Language state: 'id' or 'en'
+  
+  const t = translations[lang]; // Get current language translations
   
   const categories = ["All", ...new Set(files.map(f => f.category))];
   
@@ -364,8 +425,8 @@ export default function Home() {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>📂 PDF Library - Trading & ICT Resources</title>
-        <meta name="description" content="Koleksi lengkap materi trading, ICT, crypto, dan market analysis" />
+        <title>{t.title} - Trading & ICT Resources</title>
+        <meta name="description" content={t.subtitle} />
       </Head>
 
       <div style={{ 
@@ -401,6 +462,66 @@ export default function Home() {
           }}></div>
         </div>
 
+        {/* Language Switcher - Fixed Top Right */}
+        <div style={{
+          position: "fixed",
+          top: "clamp(1rem, 3vw, 2rem)",
+          right: "clamp(1rem, 3vw, 2rem)",
+          zIndex: 999,
+          display: "flex",
+          gap: "0.5rem",
+          background: "rgba(30, 41, 59, 0.8)",
+          backdropFilter: "blur(24px)",
+          border: "1px solid rgba(51, 65, 85, 0.5)",
+          borderRadius: "2rem",
+          padding: "0.5rem"
+        }}>
+          <button
+            onClick={() => setLang("id")}
+            style={{
+              padding: "0.5rem 1rem",
+              borderRadius: "1.5rem",
+              border: "none",
+              background: lang === "id" ? "#3b82f6" : "transparent",
+              color: lang === "id" ? "white" : "#94a3b8",
+              fontSize: "0.875rem",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.2s"
+            }}
+            onMouseEnter={(e) => {
+              if (lang !== "id") e.target.style.color = "#e2e8f0";
+            }}
+            onMouseLeave={(e) => {
+              if (lang !== "id") e.target.style.color = "#94a3b8";
+            }}
+          >
+            🇮🇩 ID
+          </button>
+          <button
+            onClick={() => setLang("en")}
+            style={{
+              padding: "0.5rem 1rem",
+              borderRadius: "1.5rem",
+              border: "none",
+              background: lang === "en" ? "#3b82f6" : "transparent",
+              color: lang === "en" ? "white" : "#94a3b8",
+              fontSize: "0.875rem",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.2s"
+            }}
+            onMouseEnter={(e) => {
+              if (lang !== "en") e.target.style.color = "#e2e8f0";
+            }}
+            onMouseLeave={(e) => {
+              if (lang !== "en") e.target.style.color = "#94a3b8";
+            }}
+          >
+            🇬🇧 EN
+          </button>
+        </div>
+
         <div style={{ 
           position: "relative",
           maxWidth: "1280px",
@@ -421,7 +542,7 @@ export default function Home() {
               marginBottom: "clamp(0.5rem, 2vw, 1rem)",
               lineHeight: "1.2"
             }}>
-              📂 PDF Library
+              {t.title}
             </h1>
             <p style={{ 
               color: "#94a3b8", 
@@ -430,7 +551,7 @@ export default function Home() {
               maxWidth: "600px",
               margin: "0 auto"
             }}>
-              Koleksi lengkap materi trading, ICT, crypto, dan market analysis
+              {t.subtitle}
             </p>
             <div style={{ 
               display: "flex",
@@ -449,7 +570,7 @@ export default function Home() {
                   borderRadius: "50%",
                   animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
                 }}></div>
-                <span style={{ color: "#94a3b8" }}>{files.length} Dokumen</span>
+                <span style={{ color: "#94a3b8" }}>{files.length} {t.documents}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <div style={{
@@ -459,7 +580,7 @@ export default function Home() {
                   borderRadius: "50%",
                   animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
                 }}></div>
-                <span style={{ color: "#94a3b8" }}>{categories.length - 1} Kategori</span>
+                <span style={{ color: "#94a3b8" }}>{categories.length - 1} {t.categories}</span>
               </div>
             </div>
           </div>
