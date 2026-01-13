@@ -25,11 +25,12 @@ const translations = {
     uploadLabel: "📷 Lampirkan Foto (Opsional)",
     formatInfo: "Format: JPG, PNG, WebP • Max: 5MB",
     sendToWhatsApp: "Kirim ke WhatsApp",
-    footer: "📚 Terus belajar dan tingkatkan skill trading Anda"
+    footer: "📚 Terus belajar dan tingkatkan skill trading Anda",
   },
   en: {
     title: "📂 PDF Library",
-    subtitle: "Complete collection of trading, ICT, crypto, and market analysis materials",
+    subtitle:
+      "Complete collection of trading, ICT, crypto, and market analysis materials",
     documents: "Documents",
     categories: "Categories",
     searchPlaceholder: "Search documents...",
@@ -48,8 +49,8 @@ const translations = {
     uploadLabel: "📷 Attach Photo (Optional)",
     formatInfo: "Format: JPG, PNG, WebP • Max: 5MB",
     sendToWhatsApp: "Send to WhatsApp",
-    footer: "📚 Keep learning and improve your trading skills"
-  }
+    footer: "📚 Keep learning and improve your trading skills",
+  },
 };
 
 // FeedbackPopup Component - Floating button in bottom right
@@ -68,12 +69,12 @@ function FeedbackPopup({ lang }) {
 
     if (file) {
       // Validate file type
-      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+      const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
       if (!validTypes.includes(file.type)) {
         setImageError("Format file harus JPG, PNG, atau WebP");
         setImage(null);
         setImagePreview(null);
-        e.target.value = '';
+        e.target.value = "";
         return;
       }
 
@@ -83,7 +84,7 @@ function FeedbackPopup({ lang }) {
         setImageError("Ukuran file maksimal 5MB");
         setImage(null);
         setImagePreview(null);
-        e.target.value = '';
+        e.target.value = "";
         return;
       }
 
@@ -102,44 +103,51 @@ function FeedbackPopup({ lang }) {
     setImagePreview(null);
     setImageError("");
     // Reset file input
-    const fileInput = document.getElementById('image-upload');
-    if (fileInput) fileInput.value = '';
+    const fileInput = document.getElementById("image-upload");
+    if (fileInput) fileInput.value = "";
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!name.trim() || !message.trim()) {
-      alert(lang === 'id' 
-        ? "Mohon isi nama dan keluhan terlebih dahulu!" 
-        : "Please fill in your name and message!");
+      alert(
+        lang === "id"
+          ? "Mohon isi nama dan keluhan terlebih dahulu!"
+          : "Please fill in your name and message!"
+      );
       return;
     }
 
     // Format message for WhatsApp
     let waMessage = `*Feedback from PDF Library*\n\nName: ${name}\nMessage: ${message}`;
-    
+
     if (image) {
-      waMessage += lang === 'id'
-        ? `\n\n_*Note: User telah melampirkan screenshot/foto. Mohon tunggu user mengirim foto secara terpisah._`
-        : `\n\n_*Note: User has attached a screenshot/photo. Please wait for the user to send the photo separately._`;
+      waMessage +=
+        lang === "id"
+          ? `\n\n_*Note: User telah melampirkan screenshot/foto. Mohon tunggu user mengirim foto secara terpisah._`
+          : `\n\n_*Note: User has attached a screenshot/photo. Please wait for the user to send the photo separately._`;
     }
-    
+
     const waNumber = "62895404147521";
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-    
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(
+      waMessage
+    )}`;
+
     // Open WhatsApp
     window.open(waUrl, "_blank");
-    
+
     // Show alert if there's an image
     if (image) {
       setTimeout(() => {
-        alert(lang === 'id' 
-          ? "Silakan kirim foto/screenshot Anda di chat WhatsApp yang sudah terbuka!"
-          : "Please send your photo/screenshot in the WhatsApp chat that just opened!");
+        alert(
+          lang === "id"
+            ? "Silakan kirim foto/screenshot Anda di chat WhatsApp yang sudah terbuka!"
+            : "Please send your photo/screenshot in the WhatsApp chat that just opened!"
+        );
       }, 1000);
     }
-    
+
     // Reset form and close
     setName("");
     setMessage("");
@@ -169,7 +177,7 @@ function FeedbackPopup({ lang }) {
           alignItems: "center",
           justifyContent: "center",
           transition: "all 0.3s",
-          zIndex: 999
+          zIndex: 999,
         }}
         onMouseEnter={(e) => {
           e.target.style.transform = "scale(1.1)";
@@ -198,26 +206,31 @@ function FeedbackPopup({ lang }) {
             padding: "1.5rem",
             boxShadow: "0 10px 40px rgba(0, 0, 0, 0.5)",
             zIndex: 998,
-            animation: "slideUp 0.3s ease-out"
+            animation: "slideUp 0.3s ease-out",
           }}
         >
-          <h3 style={{
-            color: "#e2e8f0",
-            fontSize: "1.25rem",
-            fontWeight: "600",
-            marginBottom: "0.5rem"
-          }}>
+          <h3
+            style={{
+              color: "#e2e8f0",
+              fontSize: "1.25rem",
+              fontWeight: "600",
+              marginBottom: "0.5rem",
+            }}
+          >
             {t.feedbackTitle}
           </h3>
-          <p style={{
-            color: "#94a3b8",
-            fontSize: "0.875rem",
-            marginBottom: "1rem"
-          }}>
+          <p
+            style={{
+              color: "#94a3b8",
+              fontSize: "0.875rem",
+              marginBottom: "1rem",
+            }}
+          >
             {t.feedbackSubtitle}
           </p>
 
-          <div onSubmit={handleSubmit}>
+          {/* NOTE: previously this was <div onSubmit>, should be <form> */}
+          <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "0.75rem" }}>
               <input
                 type="text"
@@ -234,13 +247,13 @@ function FeedbackPopup({ lang }) {
                   outline: "none",
                   transition: "all 0.2s",
                   fontSize: "0.875rem",
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
-                onBlur={(e) => e.target.style.borderColor = "#334155"}
+                onFocus={(e) => (e.target.style.borderColor = "#3b82f6")}
+                onBlur={(e) => (e.target.style.borderColor = "#334155")}
               />
             </div>
-            
+
             <div style={{ marginBottom: "0.75rem" }}>
               <textarea
                 placeholder={t.messagePlaceholder}
@@ -259,21 +272,23 @@ function FeedbackPopup({ lang }) {
                   fontSize: "0.875rem",
                   boxSizing: "border-box",
                   resize: "vertical",
-                  fontFamily: "inherit"
+                  fontFamily: "inherit",
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#3b82f6"}
-                onBlur={(e) => e.target.style.borderColor = "#334155"}
+                onFocus={(e) => (e.target.style.borderColor = "#3b82f6")}
+                onBlur={(e) => (e.target.style.borderColor = "#334155")}
               />
             </div>
 
             {/* Image Upload */}
             <div style={{ marginBottom: "0.75rem" }}>
-              <label style={{
-                display: "block",
-                color: "#94a3b8",
-                fontSize: "0.75rem",
-                marginBottom: "0.5rem"
-              }}>
+              <label
+                style={{
+                  display: "block",
+                  color: "#94a3b8",
+                  fontSize: "0.75rem",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 {t.uploadLabel}
               </label>
               <input
@@ -290,42 +305,48 @@ function FeedbackPopup({ lang }) {
                   color: "#e2e8f0",
                   fontSize: "0.75rem",
                   boxSizing: "border-box",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               />
-              <p style={{
-                fontSize: "0.7rem",
-                color: "#64748b",
-                marginTop: "0.25rem"
-              }}>
+              <p
+                style={{
+                  fontSize: "0.7rem",
+                  color: "#64748b",
+                  marginTop: "0.25rem",
+                }}
+              >
                 {t.formatInfo}
               </p>
-              
+
               {imageError && (
-                <p style={{
-                  fontSize: "0.75rem",
-                  color: "#ef4444",
-                  marginTop: "0.5rem"
-                }}>
+                <p
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#ef4444",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   ⚠️ {imageError}
                 </p>
               )}
 
               {imagePreview && (
-                <div style={{
-                  marginTop: "0.75rem",
-                  position: "relative",
-                  borderRadius: "0.5rem",
-                  overflow: "hidden"
-                }}>
-                  <img 
-                    src={imagePreview} 
-                    alt="Preview" 
+                <div
+                  style={{
+                    marginTop: "0.75rem",
+                    position: "relative",
+                    borderRadius: "0.5rem",
+                    overflow: "hidden",
+                  }}
+                >
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
                     style={{
                       width: "100%",
                       maxHeight: "200px",
                       objectFit: "contain",
-                      background: "#1e293b"
+                      background: "#1e293b",
                     }}
                   />
                   <button
@@ -345,7 +366,7 @@ function FeedbackPopup({ lang }) {
                       fontSize: "0.75rem",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center"
+                      justifyContent: "center",
                     }}
                   >
                     ✕
@@ -355,8 +376,7 @@ function FeedbackPopup({ lang }) {
             </div>
 
             <button
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
               style={{
                 width: "100%",
                 padding: "0.75rem",
@@ -367,14 +387,14 @@ function FeedbackPopup({ lang }) {
                 cursor: "pointer",
                 fontSize: "0.875rem",
                 fontWeight: "600",
-                transition: "all 0.2s"
+                transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => e.target.style.background = "#16a34a"}
-              onMouseLeave={(e) => e.target.style.background = "#22c55e"}
+              onMouseEnter={(e) => (e.target.style.background = "#16a34a")}
+              onMouseLeave={(e) => (e.target.style.background = "#22c55e")}
             >
               {t.sendToWhatsApp}
             </button>
-          </div>
+          </form>
         </div>
       )}
 
@@ -399,24 +419,24 @@ export default function Home() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("All");
   const [lang, setLang] = useState("id"); // Language state: 'id' or 'en'
-  
+
   const t = translations[lang]; // Get current language translations
-  
-  const categories = ["All", ...new Set(files.map(f => f.category))];
-  
+
+  const categories = ["All", ...new Set(files.map((f) => f.category))];
+
   const filtered = files.filter(
-    f =>
+    (f) =>
       (cat === "All" || f.category === cat) &&
       f.title.toLowerCase().includes(q.toLowerCase())
   );
 
   const getCategoryColor = (category) => {
     const colors = {
-      "Trading": "bg-blue-500",
-      "ICT": "bg-purple-500",
-      "Crypto": "bg-amber-500",
+      Trading: "bg-blue-500",
+      ICT: "bg-purple-500",
+      Crypto: "bg-amber-500",
       "Market Update": "bg-green-500",
-      "Mindset": "bg-pink-500"
+      Mindset: "bg-pink-500",
     };
     return colors[category] || "bg-gray-500";
   };
@@ -424,58 +444,81 @@ export default function Home() {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <title>{t.title} - Trading & ICT Resources</title>
         <meta name="description" content={t.subtitle} />
+
+        {/* ✅ FAVICON (taruh file favicon.png di /public) */}
+        <link rel="icon" href="/favicon.png" />
+        {/* Optional */}
+        <link rel="apple-touch-icon" href="/favicon.png" />
       </Head>
 
-      <div style={{ 
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a)",
-        position: "relative",
-        overflow: "hidden"
-      }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         {/* Animated background effects */}
-        <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-          <div style={{
+        <div
+          style={{
             position: "absolute",
-            top: 0,
-            left: "25%",
-            width: "min(384px, 50vw)",
-            height: "min(384px, 50vw)",
-            background: "rgba(59, 130, 246, 0.1)",
-            borderRadius: "50%",
-            filter: "blur(96px)",
-            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-          }}></div>
-          <div style={{
-            position: "absolute",
-            bottom: 0,
-            right: "25%",
-            width: "min(384px, 50vw)",
-            height: "min(384px, 50vw)",
-            background: "rgba(168, 85, 247, 0.1)",
-            borderRadius: "50%",
-            filter: "blur(96px)",
-            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-            animationDelay: "1s"
-          }}></div>
+            inset: 0,
+            overflow: "hidden",
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: "25%",
+              width: "min(384px, 50vw)",
+              height: "min(384px, 50vw)",
+              background: "rgba(59, 130, 246, 0.1)",
+              borderRadius: "50%",
+              filter: "blur(96px)",
+              animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            }}
+          ></div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              right: "25%",
+              width: "min(384px, 50vw)",
+              height: "min(384px, 50vw)",
+              background: "rgba(168, 85, 247, 0.1)",
+              borderRadius: "50%",
+              filter: "blur(96px)",
+              animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              animationDelay: "1s",
+            }}
+          ></div>
         </div>
 
         {/* Language Switcher - Fixed Top Right */}
-        <div style={{
-          position: "fixed",
-          top: "clamp(1rem, 3vw, 2rem)",
-          right: "clamp(1rem, 3vw, 2rem)",
-          zIndex: 999,
-          display: "flex",
-          gap: "0.5rem",
-          background: "rgba(30, 41, 59, 0.8)",
-          backdropFilter: "blur(24px)",
-          border: "1px solid rgba(51, 65, 85, 0.5)",
-          borderRadius: "2rem",
-          padding: "0.5rem"
-        }}>
+        <div
+          style={{
+            position: "fixed",
+            top: "clamp(1rem, 3vw, 2rem)",
+            right: "clamp(1rem, 3vw, 2rem)",
+            zIndex: 999,
+            display: "flex",
+            gap: "0.5rem",
+            background: "rgba(30, 41, 59, 0.8)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(51, 65, 85, 0.5)",
+            borderRadius: "2rem",
+            padding: "0.5rem",
+          }}
+        >
           <button
             onClick={() => setLang("id")}
             style={{
@@ -487,7 +530,7 @@ export default function Home() {
               fontSize: "0.875rem",
               fontWeight: "600",
               cursor: "pointer",
-              transition: "all 0.2s"
+              transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
               if (lang !== "id") e.target.style.color = "#e2e8f0";
@@ -509,7 +552,7 @@ export default function Home() {
               fontSize: "0.875rem",
               fontWeight: "600",
               cursor: "pointer",
-              transition: "all 0.2s"
+              transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
               if (lang !== "en") e.target.style.color = "#e2e8f0";
@@ -522,92 +565,114 @@ export default function Home() {
           </button>
         </div>
 
-        <div style={{ 
-          position: "relative",
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "clamp(1rem, 5vw, 3rem) clamp(0.75rem, 3vw, 1rem)",
-          width: "100%",
-          boxSizing: "border-box"
-        }}>
+        <div
+          style={{
+            position: "relative",
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "clamp(1rem, 5vw, 3rem) clamp(0.75rem, 3vw, 1rem)",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "clamp(2rem, 5vw, 3rem)" }}>
-            <h1 style={{
-              fontSize: "clamp(2rem, 8vw, 3.75rem)",
-              fontWeight: "bold",
-              background: "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-              marginBottom: "clamp(0.5rem, 2vw, 1rem)",
-              lineHeight: "1.2"
-            }}>
+            <h1
+              style={{
+                fontSize: "clamp(2rem, 8vw, 3.75rem)",
+                fontWeight: "bold",
+                background: "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                marginBottom: "clamp(0.5rem, 2vw, 1rem)",
+                lineHeight: "1.2",
+              }}
+            >
               {t.title}
             </h1>
-            <p style={{ 
-              color: "#94a3b8", 
-              fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)",
-              padding: "0 1rem",
-              maxWidth: "600px",
-              margin: "0 auto"
-            }}>
+            <p
+              style={{
+                color: "#94a3b8",
+                fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)",
+                padding: "0 1rem",
+                maxWidth: "600px",
+                margin: "0 auto",
+              }}
+            >
               {t.subtitle}
             </p>
-            <div style={{ 
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "clamp(1rem, 3vw, 1.5rem)",
-              marginTop: "clamp(1rem, 3vw, 1.5rem)",
-              fontSize: "clamp(0.75rem, 2vw, 0.875rem)",
-              flexWrap: "wrap"
-            }}>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "clamp(1rem, 3vw, 1.5rem)",
+                marginTop: "clamp(1rem, 3vw, 1.5rem)",
+                fontSize: "clamp(0.75rem, 2vw, 0.875rem)",
+                flexWrap: "wrap",
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{
-                  width: "8px",
-                  height: "8px",
-                  background: "#22c55e",
-                  borderRadius: "50%",
-                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-                }}></div>
-                <span style={{ color: "#94a3b8" }}>{files.length} {t.documents}</span>
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    background: "#22c55e",
+                    borderRadius: "50%",
+                    animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                  }}
+                ></div>
+                <span style={{ color: "#94a3b8" }}>
+                  {files.length} {t.documents}
+                </span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <div style={{
-                  width: "8px",
-                  height: "8px",
-                  background: "#3b82f6",
-                  borderRadius: "50%",
-                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
-                }}></div>
-                <span style={{ color: "#94a3b8" }}>{categories.length - 1} {t.categories}</span>
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    background: "#3b82f6",
+                    borderRadius: "50%",
+                    animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                  }}
+                ></div>
+                <span style={{ color: "#94a3b8" }}>
+                  {categories.length - 1} {t.categories}
+                </span>
               </div>
             </div>
           </div>
 
           {/* Search and Filter Box */}
-          <div style={{
-            background: "rgba(30, 41, 59, 0.5)",
-            backdropFilter: "blur(24px)",
-            border: "1px solid rgba(51, 65, 85, 0.5)",
-            borderRadius: "1rem",
-            padding: "clamp(1rem, 3vw, 1.5rem)",
-            marginBottom: "clamp(1.5rem, 4vw, 2rem)"
-          }}>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))",
-              gap: "clamp(0.75rem, 2vw, 1rem)"
-            }}>
+          <div
+            style={{
+              background: "rgba(30, 41, 59, 0.5)",
+              backdropFilter: "blur(24px)",
+              border: "1px solid rgba(51, 65, 85, 0.5)",
+              borderRadius: "1rem",
+              padding: "clamp(1rem, 3vw, 1.5rem)",
+              marginBottom: "clamp(1.5rem, 4vw, 2rem)",
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))",
+                gap: "clamp(0.75rem, 2vw, 1rem)",
+              }}
+            >
               {/* Search Input */}
               <input
                 type="text"
-                placeholder="Cari dokumen..."
+                placeholder={t.searchPlaceholder}
                 value={q}
-                onChange={e => setQ(e.target.value)}
+                onChange={(e) => setQ(e.target.value)}
                 style={{
                   width: "100%",
-                  padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
+                  padding:
+                    "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
                   background: "rgba(15, 23, 42, 0.5)",
                   border: "2px solid #334155",
                   borderRadius: "0.75rem",
@@ -615,19 +680,20 @@ export default function Home() {
                   outline: "none",
                   transition: "all 0.2s",
                   fontSize: "clamp(0.875rem, 2vw, 1rem)",
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 }}
-                onFocus={e => e.target.style.borderColor = "#3b82f6"}
-                onBlur={e => e.target.style.borderColor = "#334155"}
+                onFocus={(e) => (e.target.style.borderColor = "#3b82f6")}
+                onBlur={(e) => (e.target.style.borderColor = "#334155")}
               />
 
               {/* Category Select */}
               <select
                 value={cat}
-                onChange={e => setCat(e.target.value)}
+                onChange={(e) => setCat(e.target.value)}
                 style={{
                   width: "100%",
-                  padding: "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
+                  padding:
+                    "clamp(0.75rem, 2vw, 0.875rem) clamp(0.875rem, 2.5vw, 1rem)",
                   background: "rgba(15, 23, 42, 0.5)",
                   border: "2px solid #334155",
                   borderRadius: "0.75rem",
@@ -636,12 +702,12 @@ export default function Home() {
                   cursor: "pointer",
                   transition: "all 0.2s",
                   fontSize: "clamp(0.875rem, 2vw, 1rem)",
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 }}
-                onFocus={e => e.target.style.borderColor = "#3b82f6"}
-                onBlur={e => e.target.style.borderColor = "#334155"}
+                onFocus={(e) => (e.target.style.borderColor = "#3b82f6")}
+                onBlur={(e) => (e.target.style.borderColor = "#334155")}
               >
-                {categories.map(c => (
+                {categories.map((c) => (
                   <option key={c} value={c} style={{ background: "#0f172a" }}>
                     {c}
                   </option>
@@ -650,19 +716,31 @@ export default function Home() {
             </div>
 
             {/* Stats */}
-            <div style={{ 
-              marginTop: "clamp(0.75rem, 2vw, 1rem)", 
-              fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)", 
-              color: "#94a3b8",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.5rem",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}>
+            <div
+              style={{
+                marginTop: "clamp(0.75rem, 2vw, 1rem)",
+                fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
+                color: "#94a3b8",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "0.5rem",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <span>
-                Menampilkan <span style={{ color: "#60a5fa", fontWeight: "600" }}>{filtered.length}</span> dari {files.length} dokumen
-                {cat !== "All" && <span> dalam <span style={{ color: "#a78bfa", fontWeight: "600" }}>{cat}</span></span>}
+                {t.showing}{" "}
+                <span style={{ color: "#60a5fa", fontWeight: "600" }}>
+                  {filtered.length}
+                </span>{" "}
+                {t.of} {files.length} {t.documentsText}
+                {cat !== "All" && (
+                  <span>
+                    {" "}
+                    {t.in}{" "}
+                    <span style={{ color: "#a78bfa", fontWeight: "600" }}>{cat}</span>
+                  </span>
+                )}
               </span>
               {q && (
                 <button
@@ -675,18 +753,18 @@ export default function Home() {
                     borderRadius: "0.375rem",
                     cursor: "pointer",
                     fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
-                    transition: "all 0.2s"
+                    transition: "all 0.2s",
                   }}
-                  onMouseEnter={e => {
+                  onMouseEnter={(e) => {
                     e.target.style.color = "#e2e8f0";
                     e.target.style.borderColor = "#60a5fa";
                   }}
-                  onMouseLeave={e => {
+                  onMouseLeave={(e) => {
                     e.target.style.color = "#94a3b8";
                     e.target.style.borderColor = "#334155";
                   }}
                 >
-                  Reset
+                  {t.reset}
                 </button>
               )}
             </div>
@@ -694,15 +772,17 @@ export default function Home() {
 
           {/* Results Grid */}
           {filtered.length > 0 ? (
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
-              gap: "clamp(0.75rem, 2vw, 1rem)"
-            }}>
-              {filtered.map(f => {
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
+                gap: "clamp(0.75rem, 2vw, 1rem)",
+              }}
+            >
+              {filtered.map((f) => {
                 const colorClass = getCategoryColor(f.category);
                 const bgColor = colorClass.replace("bg-", "");
-                
+
                 return (
                   <a
                     key={f.slug}
@@ -716,49 +796,65 @@ export default function Home() {
                       transition: "all 0.3s",
                       cursor: "pointer",
                       display: "block",
-                      boxSizing: "border-box"
+                      boxSizing: "border-box",
                     }}
-                    onMouseEnter={e => {
+                    onMouseEnter={(e) => {
                       e.currentTarget.style.background = "rgba(30, 41, 59, 1)";
                       e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.5)";
                       e.currentTarget.style.transform = "translateY(-4px)";
                     }}
-                    onMouseLeave={e => {
+                    onMouseLeave={(e) => {
                       e.currentTarget.style.background = "rgba(30, 41, 59, 0.5)";
                       e.currentTarget.style.borderColor = "rgba(51, 65, 85, 0.5)";
                       e.currentTarget.style.transform = "translateY(0)";
                     }}
                   >
-                    <h3 style={{
-                      fontWeight: "600",
-                      color: "#e2e8f0",
-                      marginBottom: "0.5rem",
-                      transition: "color 0.2s",
-                      fontSize: "clamp(0.875rem, 2.2vw, 1rem)",
-                      lineHeight: "1.4",
-                      wordBreak: "break-word"
-                    }}>
-                      {f.title.replace('.pdf', '')}
+                    <h3
+                      style={{
+                        fontWeight: "600",
+                        color: "#e2e8f0",
+                        marginBottom: "0.5rem",
+                        transition: "color 0.2s",
+                        fontSize: "clamp(0.875rem, 2.2vw, 1rem)",
+                        lineHeight: "1.4",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {f.title.replace(".pdf", "")}
                     </h3>
-                    <span style={{
-                      display: "inline-block",
-                      padding: "0.25rem 0.75rem",
-                      borderRadius: "0.375rem",
-                      fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
-                      fontWeight: "500",
-                      background: bgColor === "blue-500" ? "rgba(59, 130, 246, 0.2)" :
-                                 bgColor === "purple-500" ? "rgba(168, 85, 247, 0.2)" :
-                                 bgColor === "amber-500" ? "rgba(245, 158, 11, 0.2)" :
-                                 bgColor === "green-500" ? "rgba(34, 197, 94, 0.2)" :
-                                 bgColor === "pink-500" ? "rgba(236, 72, 153, 0.2)" :
-                                 "rgba(107, 114, 128, 0.2)",
-                      color: bgColor === "blue-500" ? "#60a5fa" :
-                            bgColor === "purple-500" ? "#a78bfa" :
-                            bgColor === "amber-500" ? "#fbbf24" :
-                            bgColor === "green-500" ? "#4ade80" :
-                            bgColor === "pink-500" ? "#f472b6" :
-                            "#9ca3af"
-                    }}>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        padding: "0.25rem 0.75rem",
+                        borderRadius: "0.375rem",
+                        fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
+                        fontWeight: "500",
+                        background:
+                          bgColor === "blue-500"
+                            ? "rgba(59, 130, 246, 0.2)"
+                            : bgColor === "purple-500"
+                            ? "rgba(168, 85, 247, 0.2)"
+                            : bgColor === "amber-500"
+                            ? "rgba(245, 158, 11, 0.2)"
+                            : bgColor === "green-500"
+                            ? "rgba(34, 197, 94, 0.2)"
+                            : bgColor === "pink-500"
+                            ? "rgba(236, 72, 153, 0.2)"
+                            : "rgba(107, 114, 128, 0.2)",
+                        color:
+                          bgColor === "blue-500"
+                            ? "#60a5fa"
+                            : bgColor === "purple-500"
+                            ? "#a78bfa"
+                            : bgColor === "amber-500"
+                            ? "#fbbf24"
+                            : bgColor === "green-500"
+                            ? "#4ade80"
+                            : bgColor === "pink-500"
+                            ? "#f472b6"
+                            : "#9ca3af",
+                      }}
+                    >
                       {f.category}
                     </span>
                   </a>
@@ -766,66 +862,79 @@ export default function Home() {
               })}
             </div>
           ) : (
-            <div style={{
-              background: "rgba(30, 41, 59, 0.5)",
-              border: "1px solid rgba(51, 65, 85, 0.5)",
-              borderRadius: "1rem",
-              padding: "clamp(2rem, 8vw, 3rem)",
-              textAlign: "center"
-            }}>
-              <h3 style={{
-                fontSize: "clamp(1rem, 3vw, 1.25rem)",
-                fontWeight: "600",
-                color: "#e2e8f0",
-                marginBottom: "0.5rem"
-              }}>
-                Tidak ada dokumen ditemukan
+            <div
+              style={{
+                background: "rgba(30, 41, 59, 0.5)",
+                border: "1px solid rgba(51, 65, 85, 0.5)",
+                borderRadius: "1rem",
+                padding: "clamp(2rem, 8vw, 3rem)",
+                textAlign: "center",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: "clamp(1rem, 3vw, 1.25rem)",
+                  fontWeight: "600",
+                  color: "#e2e8f0",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                {t.noDocuments}
               </h3>
-              <p style={{ 
-                color: "#94a3b8", 
-                marginBottom: "1rem",
-                fontSize: "clamp(0.875rem, 2vw, 1rem)"
-              }}>
-                Coba ubah kata kunci atau filter kategori
+              <p
+                style={{
+                  color: "#94a3b8",
+                  marginBottom: "1rem",
+                  fontSize: "clamp(0.875rem, 2vw, 1rem)",
+                }}
+              >
+                {t.tryAdjust}
               </p>
               <button
-                onClick={() => { setQ(""); setCat("All"); }}
+                onClick={() => {
+                  setQ("");
+                  setCat("All");
+                }}
                 style={{
-                  padding: "clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)",
+                  padding:
+                    "clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)",
                   background: "#3b82f6",
                   color: "white",
                   border: "none",
                   borderRadius: "0.5rem",
                   cursor: "pointer",
                   transition: "background 0.2s",
-                  fontSize: "clamp(0.875rem, 2vw, 1rem)"
+                  fontSize: "clamp(0.875rem, 2vw, 1rem)",
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = "#2563eb"}
-                onMouseLeave={e => e.currentTarget.style.background = "#3b82f6"}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "#2563eb")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "#3b82f6")}
               >
-                Reset Filter
+                {t.resetFilter}
               </button>
             </div>
           )}
 
           {/* Footer */}
-          <div style={{
-            marginTop: "clamp(2rem, 5vw, 3rem)",
-            textAlign: "center",
-            color: "#64748b",
-            fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
-            padding: "1rem 0"
-          }}>
-            <p>📚 Terus belajar dan tingkatkan skill trading Anda</p>
+          <div
+            style={{
+              marginTop: "clamp(2rem, 5vw, 3rem)",
+              textAlign: "center",
+              color: "#64748b",
+              fontSize: "clamp(0.75rem, 1.8vw, 0.875rem)",
+              padding: "1rem 0",
+            }}
+          >
+            <p>{t.footer}</p>
           </div>
         </div>
 
         {/* Floating Feedback Popup */}
-        <FeedbackPopup />
+        <FeedbackPopup lang={lang} />
 
         <style jsx>{`
           @keyframes pulse {
-            0%, 100% {
+            0%,
+            100% {
               opacity: 1;
             }
             50% {
